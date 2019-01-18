@@ -29,6 +29,15 @@
                                 <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rLJ-rz-ejW">
+                                <rect key="frame" x="69" y="582" width="50" height="50"/>
+                                <color key="backgroundColor" red="1" green="0.72579051979999998" blue="0.1896385521" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <state key="normal" title="save"/>
+                                <connections>
+                                    <action selector="play:" destination="BYZ-38-t0r" eventType="touchUpInside" id="juk-2E-3Dm"/>
+                                    <action selector="saveVideoToPhoto:" destination="BYZ-38-t0r" eventType="touchUpInside" id="gZD-47-CPu"/>
+                                </connections>
+                            </button>
                             <button opaque="NO" alpha="0.5" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Tgg-Rd-WlR">
                                 <rect key="frame" x="162.5" y="582" width="50" height="50"/>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -57,14 +66,18 @@
                             <constraint firstItem="Y5f-eJ-roT" firstAttribute="centerX" secondItem="kO2-zK-J0e" secondAttribute="centerX" id="9w1-xx-sZQ"/>
                             <constraint firstItem="kO2-zK-J0e" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="Gfr-rW-dAE"/>
                             <constraint firstItem="Dbg-8E-FGg" firstAttribute="width" secondItem="Tgg-Rd-WlR" secondAttribute="width" id="H9V-sv-9CO"/>
+                            <constraint firstItem="rLJ-rz-ejW" firstAttribute="bottom" secondItem="Tgg-Rd-WlR" secondAttribute="bottom" id="Hzm-UN-9u9"/>
                             <constraint firstItem="hqy-gL-DZ0" firstAttribute="top" secondItem="Tgg-Rd-WlR" secondAttribute="bottom" constant="35" id="Ijy-Pb-Hd5"/>
+                            <constraint firstItem="rLJ-rz-ejW" firstAttribute="height" secondItem="Tgg-Rd-WlR" secondAttribute="height" id="J1Z-wg-jwm"/>
                             <constraint firstItem="Y5f-eJ-roT" firstAttribute="centerY" secondItem="kO2-zK-J0e" secondAttribute="centerY" id="L7X-zg-sJv"/>
                             <constraint firstItem="Y5f-eJ-roT" firstAttribute="height" secondItem="kO2-zK-J0e" secondAttribute="height" id="Rn5-ei-d1p"/>
                             <constraint firstItem="Tgg-Rd-WlR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="VqB-oh-meB"/>
                             <constraint firstItem="kO2-zK-J0e" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" id="ZN3-qe-4Jl"/>
                             <constraint firstItem="Dbg-8E-FGg" firstAttribute="bottom" secondItem="Tgg-Rd-WlR" secondAttribute="bottom" id="cXg-db-tMy"/>
+                            <constraint firstItem="rLJ-rz-ejW" firstAttribute="centerX" secondItem="Tgg-Rd-WlR" secondAttribute="centerX" multiplier="0.5" id="exE-59-vU3"/>
                             <constraint firstItem="Dbg-8E-FGg" firstAttribute="height" secondItem="Tgg-Rd-WlR" secondAttribute="height" id="fgD-on-AG5"/>
                             <constraint firstItem="Dbg-8E-FGg" firstAttribute="centerX" secondItem="Tgg-Rd-WlR" secondAttribute="centerX" multiplier="1.5" id="iK1-XT-B7C"/>
+                            <constraint firstItem="rLJ-rz-ejW" firstAttribute="width" secondItem="Tgg-Rd-WlR" secondAttribute="width" id="jK5-AJ-dkm"/>
                             <constraint firstItem="kO2-zK-J0e" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="jjm-Ww-t77"/>
                             <constraint firstItem="Y5f-eJ-roT" firstAttribute="width" secondItem="kO2-zK-J0e" secondAttribute="width" id="mJw-yB-wtd"/>
                         </constraints>

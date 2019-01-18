@@ -8,6 +8,7 @@
 
 #import "ViewController.h"
 #import <AVFoundation/AVFoundation.h>
+#import <AssetsLibrary/AssetsLibrary.h>
 
 @interface ViewController ()<AVCaptureFileOutputRecordingDelegate>
 @property (strong, nonatomic) AVCaptureSession *captureSession;
@@ -36,16 +37,17 @@
         case AVAuthorizationStatusNotDetermined:
         {
             NSLog(@"相机权限：未设置过权限");
-            [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
-                
-                if (granted) {
-                    NSLog(@"请求授权成功");
-                    [self createAV];
-                } else {
-                    NSLog(@"请求授权失败");
-                }
-                
-            }];
+                [AVCaptureDevice requestAccessForMediaType:AVMediaTypeVideo completionHandler:^(BOOL granted) {
+                    if (granted) {
+                        NSLog(@"请求授权成功");
+                        dispatch_async(dispatch_get_main_queue(), ^{
+                        [self createAV];
+                        });
+                    } else {
+                        NSLog(@"请求授权失败");
+                    }
+                    
+                }];
         }
             break;
         case AVAuthorizationStatusRestricted:
@@ -179,6 +181,8 @@
     
 }
 
+
+
 - (void)captureOutput:(AVCaptureFileOutput *)output didFinishRecordingToOutputFileAtURL:(NSURL *)outputFileURL fromConnections:(NSArray<AVCaptureConnection *> *)connections error:(NSError *)error {
     
     if (outputFileURL) {
@@ -232,6 +236,74 @@
 }
 
 
+//保存视频到相册
+- (IBAction)saveVideoToPhoto:(UIButton *)sender {
 
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        //方法一
+//        [self exportVidelWithUrl:_outputFileURL];
+        
+        //方法二
+        UISaveVideoAtPathToSavedPhotosAlbum(self.outputFileURL.absoluteString, self, @selector(video:didFinishSavingWithError:contextInfo:), nil);
+    });
+
+}
+
+// 视频保存回调
+- (void)video:(NSString *)videoPath didFinishSavingWithError:(NSError *)error contextInfo: (void *)contextInfo {
+    NSLog(@"%@",videoPath);
+    NSLog(@"%@",error);
+}
+
+//导出视频
+- (void)exportVidelWithUrl:(NSURL *)url {
+    NSLog(@"压缩前文件大小：%f",[self fileSize:url]);
+    
+    AVURLAsset *avasset = [[AVURLAsset alloc] initWithURL:url options:nil];
+    
+    NSArray *exportSessions = [AVAssetExportSession exportPresetsCompatibleWithAsset:avasset];
+    
+    BOOL containsObj = [exportSessions containsObject:AVAssetExportPresetLowQuality];
+    
+    if (containsObj) {
+        AVAssetExportSession *exportSession = [[AVAssetExportSession alloc] initWithAsset:avasset presetName:AVAssetExportPreset1280x720];
+        exportSession.outputURL = [self exportURL];
+        exportSession.shouldOptimizeForNetworkUse = YES;
+        exportSession.outputFileType = AVFileTypeMPEG4;
+        [exportSession exportAsynchronouslyWithCompletionHandler:^{
+            if (exportSession.status == AVAssetExportSessionStatusCompleted) {
+                NSLog(@"压缩完毕，文件大小：%f",[self fileSize:[self exportURL]]);
+                [self saveVidelToPhoto:[self exportURL]];
+            } else {
+                NSLog(@"压缩进度：%f",exportSession.progress);
+                
+            }
+        }];
+        
+    }
+}
+
+//保存到相册
+- (void)saveVidelToPhoto:(NSURL *)outputFileURL {
+    
+    ALAssetsLibrary *lib = [[ALAssetsLibrary alloc] init];
+    
+    [lib writeVideoAtPathToSavedPhotosAlbum:outputFileURL completionBlock:^(NSURL *assetURL, NSError *error) {
+        if (error) {
+            NSLog(@"保存到相册出错");
+        } else {
+            NSLog(@"保存到相册成功");
+        }
+    }];
+}
+
+- (NSURL *)exportURL {
+    return [NSURL fileURLWithPath:[[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, true) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"export.mp4"]]];
+}
+
+
+- (CGFloat)fileSize:(NSURL *)path {
+    return [[NSData dataWithContentsOfURL:path] length]/1024.00 /1024.00;
+}
 
 @end
