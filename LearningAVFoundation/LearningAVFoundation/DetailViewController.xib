@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15702" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina5_9" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15704"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="DetailViewController">
+            <connections>
+                <outlet property="playerView" destination="SYg-NL-tcf" id="Cm0-2m-Mn2"/>
+                <outlet property="thumnailImageView" destination="JxS-uN-0Up" id="7Na-LH-XBA"/>
+                <outlet property="timeLabel" destination="GXr-Zo-kSX" id="Nn0-kF-eq4"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="812"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OuR-l8-75l">
+                    <rect key="frame" x="19.999999999999993" y="64" width="98.333333333333314" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="uoS-Nc-4QJ"/>
+                    </constraints>
+                    <state key="normal" title="录制"/>
+                    <connections>
+                        <action selector="beginRecoder:" destination="-1" eventType="touchUpInside" id="MeE-S7-Bu0"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Dgf-oN-lM6">
+                    <rect key="frame" x="138.33333333333334" y="64" width="98.333333333333343" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="录制停止"/>
+                    <connections>
+                        <action selector="stopRecoder:" destination="-1" eventType="touchUpInside" id="YK7-rH-YKZ"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Lia-cg-evS">
+                    <rect key="frame" x="256.66666666666669" y="64" width="98.333333333333314" height="50"/>
+                    <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <state key="normal" title="播放"/>
+                    <state key="selected" title="暂停"/>
+                    <connections>
+                        <action selector="playOrStop:" destination="-1" eventType="touchUpInside" id="Iyj-Jf-auK"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="录制时长" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXr-Zo-kSX">
+                    <rect key="frame" x="20" y="134" width="335" height="24"/>
+                    <color key="backgroundColor" systemColor="secondarySystemBackgroundColor" red="0.94901960780000005" green="0.94901960780000005" blue="0.96862745100000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                    <nil key="textColor"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SYg-NL-tcf">
+                    <rect key="frame" x="0.0" y="300.66666666666669" width="375" height="210.66666666666669"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                </view>
+                <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" contentInsetAdjustmentBehavior="never" dataMode="none" translatesAutoresizingMaskIntoConstraints="NO" id="JxS-uN-0Up">
+                    <rect key="frame" x="0.0" y="521.33333333333337" width="375" height="211"/>
+                    <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                    <collectionViewFlowLayout key="collectionViewLayout" scrollDirection="horizontal" minimumLineSpacing="10" minimumInteritemSpacing="5" id="RbA-RS-T96">
+                        <size key="itemSize" width="50" height="50"/>
+                        <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                        <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                        <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                    </collectionViewFlowLayout>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="Chf-GH-T3i"/>
+                        <outlet property="delegate" destination="-1" id="Rru-tr-fqB"/>
+                    </connections>
+                </collectionView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <constraints>
+                <constraint firstItem="OuR-l8-75l" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="5tP-Tc-OL5"/>
+                <constraint firstItem="Lia-cg-evS" firstAttribute="width" secondItem="OuR-l8-75l" secondAttribute="width" id="9hu-uH-WhR"/>
+                <constraint firstItem="GXr-Zo-kSX" firstAttribute="top" secondItem="OuR-l8-75l" secondAttribute="bottom" constant="20" id="Aox-dz-yc8"/>
+                <constraint firstAttribute="trailing" secondItem="Lia-cg-evS" secondAttribute="trailing" constant="20" id="FF2-0J-Bcg"/>
+                <constraint firstItem="JxS-uN-0Up" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="9/16" id="GpF-Ib-c6h"/>
+                <constraint firstAttribute="trailing" secondItem="GXr-Zo-kSX" secondAttribute="trailing" constant="20" id="I5C-la-Nl9"/>
+                <constraint firstItem="SYg-NL-tcf" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="9/16" id="Kfn-Wx-6xj"/>
+                <constraint firstItem="JxS-uN-0Up" firstAttribute="top" secondItem="SYg-NL-tcf" secondAttribute="bottom" constant="10" id="RLd-WG-Jmw"/>
+                <constraint firstItem="Dgf-oN-lM6" firstAttribute="top" secondItem="OuR-l8-75l" secondAttribute="top" id="Ycj-cE-tBA"/>
+                <constraint firstItem="Lia-cg-evS" firstAttribute="leading" secondItem="Dgf-oN-lM6" secondAttribute="trailing" constant="20" id="ZDB-4e-DGS"/>
+                <constraint firstItem="Dgf-oN-lM6" firstAttribute="width" secondItem="OuR-l8-75l" secondAttribute="width" id="bUe-Ks-Nyl"/>
+                <constraint firstItem="GXr-Zo-kSX" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="20" id="cIj-Y0-RMW"/>
+                <constraint firstItem="SYg-NL-tcf" firstAttribute="height" secondItem="i5M-Pr-FkT" secondAttribute="width" multiplier="9/16" constant="-300" id="e7a-H6-zvI"/>
+                <constraint firstItem="OuR-l8-75l" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="topMargin" constant="20" id="fdr-ZV-qxJ"/>
+                <constraint firstItem="Lia-cg-evS" firstAttribute="height" secondItem="OuR-l8-75l" secondAttribute="height" id="lVJ-QE-Vpu"/>
+                <constraint firstItem="Dgf-oN-lM6" firstAttribute="height" secondItem="OuR-l8-75l" secondAttribute="height" id="ln0-PM-8ps"/>
+                <constraint firstAttribute="trailing" secondItem="JxS-uN-0Up" secondAttribute="trailing" id="m9c-be-l8T"/>
+                <constraint firstItem="Dgf-oN-lM6" firstAttribute="leading" secondItem="OuR-l8-75l" secondAttribute="trailing" constant="20" id="pZI-ec-cai"/>
+                <constraint firstItem="JxS-uN-0Up" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="qk5-CI-nld"/>
+                <constraint firstItem="SYg-NL-tcf" firstAttribute="centerY" secondItem="i5M-Pr-FkT" secondAttribute="centerY" id="rlY-XO-OVV"/>
+                <constraint firstItem="Lia-cg-evS" firstAttribute="top" secondItem="OuR-l8-75l" secondAttribute="top" id="tTj-W3-rQJ"/>
+                <constraint firstItem="SYg-NL-tcf" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="vq8-UZ-qgT"/>
+                <constraint firstItem="SYg-NL-tcf" firstAttribute="width" secondItem="i5M-Pr-FkT" secondAttribute="width" id="yYw-vC-t6X"/>
+            </constraints>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="Kfn-Wx-6xj"/>
+                    <exclude reference="e7a-H6-zvI"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=compact">
+                <mask key="constraints">
+                    <include reference="Kfn-Wx-6xj"/>
+                </mask>
+            </variation>
+            <variation key="heightClass=regular-widthClass=regular">
+                <mask key="constraints">
+                    <include reference="e7a-H6-zvI"/>
+                </mask>
+            </variation>
+            <point key="canvasLocation" x="137.68115942028987" y="107.8125"/>
+        </view>
+    </objects>
+</document>
