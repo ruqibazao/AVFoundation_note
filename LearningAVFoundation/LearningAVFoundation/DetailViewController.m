@@ -1229,14 +1229,27 @@ static const NSString *playerItemStatusContext;
 
 #pragma mark - 第十二章 动画图层内容
 - (void)coreAnimation {
-    [self rotateAnimation];
     
-    
-    
-}
+    /**
+     * AVSynchronizedLayer: 是AVFoundation 提供了一个专门的calayer子类，用于给指定的AVPlayerItem 实例同步时间，这个图层本身不展示任何内容，仅用来图层子树协同时间
+       AVSynchronizedLayer *syncLayer = [AVSynchronizedLayer synchronizedLayerWithPlayerItem:playerItem];
+       [syncLayer addSublayer:animationLayer];
+       [self.layer addSublayer:syncLayer];
 
-- (void)rotateAnimation {
-   CALayer *parentLayer = self.view.layer;
+
+     * AVVideoCompositionCoreAnimationTool: 要将core animation图层和动画整合到导出视频中，需要使用：core animationTool类
+
+     * CALayer *layer;
+        设置为yes，这样当图片动态显示时边缘就会应用一个土抗锯齿效果
+        layer.allowsEdgeAntialiasing = YES;
+     
+     * CAKeyframeAnimation *animation;
+        设置为no，这样动画不会在执行之后被移除，如果没有明确设置这个属性，则意味着动画只能出现一次
+        animation.removedOnCompletion = NO;
+     */
+     
+    
+    CALayer *parentLayer = self.view.layer;
     UIImage *image = [UIImage imageNamed:@"IMG_4006.png"];
     CALayer *imageLayer = [CALayer layer];
     imageLayer.contents = (__bridge id _Nullable)(image.CGImage);
@@ -1245,19 +1258,73 @@ static const NSString *playerItemStatusContext;
     CGFloat midX = CGRectGetMidX(parentLayer.bounds);
     CGFloat midY = CGRectGetMidY(parentLayer.bounds);
     
-    imageLayer.bounds = CGRectMake(0, 0, image.size.width, image.size.height);
+    imageLayer.bounds = CGRectMake(0, 0, image.size.width/ UIScreen.mainScreen.scale, image.size.height / UIScreen.mainScreen.scale);
     imageLayer.position = CGPointMake(midX, midY);
     
     [parentLayer addSublayer:imageLayer];
     
+    [imageLayer addAnimation:[self rotationAnimation] forKey:@"rotateAnimation"];
+
+    [imageLayer addAnimation:[self make3DSpinAnimation] forKey:@"3DSpinAnimation"];
+
+    [imageLayer addAnimation:[self makePopAnimation] forKey:@"PopAnimation"];
+    
+    CALayer *animationLayer = [CALayer layer];
+//    animationLayer.frame =
+    
+    CALayer *videoLayer = [CALayer layer];
+//    videoLayer.frame =
+    // 视频层
+    [animationLayer addSublayer:videoLayer];
+    // 动画层
+    [animationLayer addSublayer:imageLayer];
+    // 设置动画图层的 geometryFlipped 为yes，来确保标题被正确渲染田；如果没有设置这个值将导致图片和文本的位置发生颠倒
+    animationLayer.geometryFlipped = YES;
+    
+    AVVideoCompositionCoreAnimationTool *animationTool = [AVVideoCompositionCoreAnimationTool videoCompositionCoreAnimationToolWithPostProcessingAsVideoLayer:videoLayer inLayer:animationLayer];
+    
+    AVMutableVideoComposition *videoComposition;
+    // 把 animationTool 赋给视频命令层
+    videoComposition.animationTool = animationTool;
+    
+    // 导出
+    AVAssetExportSession *exportSession;
+    exportSession.videoComposition = videoComposition;
+
+}
+
+- (CABasicAnimation *)rotationAnimation {
     CABasicAnimation *rotationAnimation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.x"];
     rotationAnimation.toValue = @(2 * M_PI);
     rotationAnimation.duration = 3.0f;
-    rotationAnimation.repeatCount = HUGE_VALF;
-    
-    [imageLayer addAnimation:rotationAnimation forKey:@"rotateAnimation"];
+    rotationAnimation.repeatCount = 2;
+    return rotationAnimation;
 }
 
+- (CABasicAnimation *)make3DSpinAnimation {
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.rotation.y"];
+    // 逆时针方向绕Y轴旋转两圈，一圈360度即2PI，所以我们设置 4 * M_PI
+    animation.toValue = @((4 * M_PI) * -1);
+    animation.beginTime = 3.0;
+    animation.duration = 1.2;
+//    animation.timeOffset = 3.0;
+    animation.removedOnCompletion = NO;
+    animation.repeatCount = HUGE_VALF;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    return animation;
+}
+
+- (CABasicAnimation *)makePopAnimation {
+    CABasicAnimation *animation = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    animation.toValue = @1.3f;
+    animation.duration = 0.5;
+    // 动画对象具有自动回溯功能，可以反言向运行动画，使它返回到初始状态
+    animation.autoreverses = YES;
+    animation.removedOnCompletion = NO;
+    animation.repeatCount = HUGE_VALF;
+    animation.timingFunction = [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    return animation;
+}
 
 #pragma mark - MovieWriterDelegate
 - (void)didWriterMovieAtURL:(NSURL *)outputURL {
